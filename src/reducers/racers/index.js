@@ -5,6 +5,7 @@ import {
 
 const INITIAL_STATE = {
   racers: [],
+  total: '',
   loading: false
 };
   
@@ -13,7 +14,8 @@ export default (state = INITIAL_STATE, action) => {
     case SET_RACERS:
       return {
         ...state,
-        racers: action.payload
+        racers: action.payload.DriverTable.Drivers,
+        total: action.payload.total,
       };
     case SET_RACERS_LOADING:
       return {

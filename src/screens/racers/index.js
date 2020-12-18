@@ -1,52 +1,72 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ScrollView } from 'react-native';
+import { connect, useSelector } from 'react-redux';
+import styles from './styles';
+import { fetchRacers } from '../../actions';
+import { DataTable } from 'react-native-paper';
+import Loading from '../../components/Loading';
 
-function RacersScreen({navigation}) {
-//   const { user, logout } = useContext(AuthContext);
-//   const [subject, setSubject] = useState(`${user.first_name} ${user.last_name}'s info`);
+function RacersScreen({fetchRacers, navigation}) {
+  const [fields, setFields] = useState(['Name', 'Nationality', 'Races']);
+  const [limit, setLimit] = useState(10)
+  const [page, setPage] = useState(0);
+  const { racers, total, loading } = useSelector(({racers, total, loading}) => racers);
 
-//   useEffect(() => {
-//     fetchEmployees();
-//     fetchGroups(user.uid);
-//   }, [])
+  const from = page * limit;
+  const to = (page + 1) * limit;
 
-  // const prepareAndSendEmail = () => {
-  //   let tmp_str = '';
-  //   for (var key in user) {
-  //     if (user.hasOwnProperty(key) && !['key', 'uid', 'file_name'].includes(key)) {
-  //       if (key == 'location') {
-  //         tmp_str = tmp_str + `latitude: ${user[key].latitude}\n`+ `longitude: ${user[key].longitude}\n`
-  //       } else {
-  //         tmp_str = tmp_str + `${key}: ${user[key]}\n`
-  //       }
-  //     }
-  //   }
-  //   sendEmail('', subject, tmp_str)
-  // }
+  useEffect(() => {
+    fetchRacers(limit, page);
+  }, [])
+
+  const changePage = (page) => {
+    fetchRacers(limit, limit * page)
+    setPage(page);
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>22222222</Text>
-      <TouchableOpacity
-        // style={styles.navButton}
-        onPress={() => navigation.navigate('Racer')}
-      ><Text>1234</Text></TouchableOpacity>
+      { loading ? <Loading /> :
+        <ScrollView>
+          <DataTable >
+            <DataTable.Header>
+              { fields.map(field => (
+                <DataTable.Title key={field} style={styles.header}>
+                  <Text style={styles.headerTitle}>
+                    {field}
+                  </Text>
+                </DataTable.Title>
+              ))}
+            </DataTable.Header>
+            { racers.map(racer => (
+              <DataTable.Row key={racer.driverId}>
+                <DataTable.Cell
+                  style={styles.cell}
+                  onPress={() => navigation.navigate('Racer', {racer_id: racer.driverId, racer_name: `${racer.givenName} ${racer.familyName}`})}
+                >
+                  {racer.givenName} {racer.familyName}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.cell}>{racer.nationality}</DataTable.Cell>
+                <DataTable.Cell
+                  style={styles.cell}
+                  onPress={() => navigation.navigate('Races', {racer_id: racer.driverId, racer_name: `${racer.givenName} ${racer.familyName}`})}
+                >
+                  See
+                </DataTable.Cell>
+              </DataTable.Row>
+            ))}
+            <DataTable.Pagination
+              page={page}
+              style={styles.pagination}
+              numberOfPages={Math.floor(total / limit)}
+              onPageChange={page => changePage(page)}
+              label={`${from + 1}-${to} of ${total}`}
+            />
+          </DataTable>
+        </ScrollView>
+      }
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f1'
-  },
-  text: {
-    fontSize: 20,
-    color: '#333333'
-  }
-});
-
-export default connect(null, {})(RacersScreen);
+export default connect(null, {fetchRacers})(RacersScreen);

@@ -2,10 +2,11 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {widthPercentageToDP} from '../helpers/sizes';
+import { DARK_GREY } from '../utils/colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RacersScreen from '../screens/racers';
 import RacerScreen from '../screens/racer';
-import { DARK_GREY } from '../utils/colors';
+import RacesScreen from '../screens/races';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -36,7 +37,12 @@ const RootStack = () => {
             <Stack.Screen 
               name="Racer"
               component={RacerScreen}
-              options={{headerTitleAlign: 'center'}}
+              options={({route}) => ({headerTitleAlign: 'center', headerTitle: route.params.racer_name})}
+            />
+            <Stack.Screen 
+              name="Races"
+              component={RacesScreen}
+              options={({route}) => ({headerTitleAlign: 'center', headerTitle: `${route.params.racer_name}'s races`})}
             />
           </Stack.Navigator>
         )}
