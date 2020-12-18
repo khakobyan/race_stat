@@ -1,0 +1,2 @@
+export const SET_RACERS = 'SET_RACERS';
+export const SET_RACERS_LOADING = 'SET_RACERS_LOADING';
