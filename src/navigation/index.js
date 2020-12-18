@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RacersScreen from '../screens/racers';
 import RacerScreen from '../screens/racer';
 import RacesScreen from '../screens/races';
+import MoreInfoScreen from '../screens/more_info';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -43,6 +44,11 @@ const RootStack = () => {
               name="Races"
               component={RacesScreen}
               options={({route}) => ({headerTitleAlign: 'center', headerTitle: `${route.params.racer_name}'s races`})}
+            />
+            <Stack.Screen 
+              name="MoreInfo"
+              component={MoreInfoScreen}
+              options={({route}) => ({headerTitleAlign: 'center', headerTitle: `${route.params.racer_name}'s more info`})}
             />
           </Stack.Navigator>
         )}

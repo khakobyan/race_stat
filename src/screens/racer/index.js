@@ -23,7 +23,7 @@ function RacerScreen({navigation, route, fetchRacer}) {
         { racer.url &&
           <CustomLink
             title='More Info'
-            onPress={() => console.log('777777', racer.url)}
+            onPress={() => navigation.navigate('MoreInfo', {url: racer.url, racer_name: `${racer.givenName} ${racer.familyName}`})}
           />
         }
         <CustomLink
