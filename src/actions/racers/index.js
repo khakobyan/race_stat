@@ -24,6 +24,6 @@ export const fetchRacers = (limit, offset) => dispatch => {
   })
   .catch(e => {
     dispatch(setRacersLoading(false));
-    console.log('error==', e)
+    console.log('racers error==', e)
   })
 }

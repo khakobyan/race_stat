@@ -4,7 +4,7 @@ import { connect, useSelector } from 'react-redux';
 import styles from './styles';
 import { fetchRacers } from '../../actions';
 import { DataTable } from 'react-native-paper';
-import Loading from '../../components/Loading';
+import { Loading } from '../../components';
 
 function RacersScreen({fetchRacers, navigation}) {
   const [fields, setFields] = useState(['Name', 'Nationality', 'Races']);
