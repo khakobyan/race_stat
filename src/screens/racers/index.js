@@ -10,7 +10,7 @@ function RacersScreen({fetchRacers, navigation}) {
   const [fields, setFields] = useState(['Name', 'Nationality', 'Races']);
   const [limit, setLimit] = useState(10)
   const [page, setPage] = useState(0);
-  const { racers, total, loading } = useSelector(({racers, total, loading}) => racers);
+  const { racers, total, loading } = useSelector(({racers}) => racers);
 
   const from = page * limit;
   const to = (page + 1) * limit;
@@ -58,7 +58,7 @@ function RacersScreen({fetchRacers, navigation}) {
             <DataTable.Pagination
               page={page}
               style={styles.pagination}
-              numberOfPages={Math.floor(total / limit)}
+              numberOfPages={Math.round(total / limit)}
               onPageChange={page => changePage(page)}
               label={`${from + 1}-${to} of ${total}`}
             />

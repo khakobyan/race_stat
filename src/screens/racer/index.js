@@ -6,7 +6,7 @@ import { fetchRacer } from '../../actions';
 import {CustomLink, Info, Loading} from '../../components';
 
 function RacerScreen({navigation, route, fetchRacer}) {
-  const { racer, loading } = useSelector(({racer, loading}) => racer);
+  const { racer, loading } = useSelector(({racer}) => racer);
   
   useEffect(() => {
     const { racer_id } = route.params;
